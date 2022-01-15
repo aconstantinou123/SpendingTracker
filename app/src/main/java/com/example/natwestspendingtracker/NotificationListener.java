@@ -6,6 +6,8 @@ import android.os.IBinder;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 
+import com.example.natwestspendingtracker.database.PurchasedItem;
+
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -16,12 +18,10 @@ public class NotificationListener extends NotificationListenerService {
     private String TAG = "Notification Received";
     private String NATWEST_NOTIFICATION = "natwest";
     private String PUSH_BULLET_NOTIFICATION = "pushbullet";
-    private ArrayList<String> notifications = new ArrayList<>();
 
     @Override
     public void onCreate() {
         super.onCreate();
-        System.out.println("Called On Create");
     }
 
     @Override
@@ -38,11 +38,6 @@ public class NotificationListener extends NotificationListenerService {
     public void onNotificationPosted(StatusBarNotification sbn) {
         System.out.println("onNotificationPosted");
         prepareNotification(sbn);
-
-//        StatusBarNotification[] array = getActiveNotifications();
-//        for (int i = 0; i < array.length; i++) {
-//            showLog(array[i]);
-//        }
     }
 
     @Override
@@ -55,17 +50,11 @@ public class NotificationListener extends NotificationListenerService {
                 sbn.getPackageName().contains(NATWEST_NOTIFICATION) ||
                 sbn.getPackageName().contains(PUSH_BULLET_NOTIFICATION)
         ) {
-            int id = sbn.getId();
-            String name = sbn.getPackageName();
             long time = sbn.getPostTime();
             String text = sbn.getNotification().extras.get(Notification.EXTRA_BIG_TEXT).toString();
-            String price = extract_cost_dot(text).toString();
-            String notification = TAG + "\n" +
-                    "id: " + id + "\n" +
-                    "name: " + name + "\n" +
-                    "text: " + text + "\n" +
-                    "price: " + price + "\n" +
-                    "time: " + time;
+            Double price = extract_cost_dot(text);
+
+            String notification = text + ":" + price + ":" + time;
             Intent intent = new  Intent("com.example.natwestspendingtracker");
             intent.putExtra("Notification", notification);
             sendBroadcast(intent);
