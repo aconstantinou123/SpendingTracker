@@ -16,6 +16,7 @@ import com.example.natwestspendingtracker.database.PurchasedItem;
 import com.example.natwestspendingtracker.database.PurchasedItemViewModel;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
             int uid = Integer.parseInt(notificationArray[0]);
             String text = notificationArray[1];
             double price = Double.parseDouble(notificationArray[2]);
-            long time = Long.parseLong(notificationArray[3]);
+            Date time = new Date(Long.parseLong(notificationArray[3]));
             PurchasedItem purchasedItem = new PurchasedItem(uid, text, price, time);
             mPurchasedItemViewModel.insert(purchasedItem);
         }

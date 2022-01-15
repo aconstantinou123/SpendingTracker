@@ -52,8 +52,12 @@ public class NotificationListener extends NotificationListenerService {
         ) {
             int notificationId = sbn.getId();
             long time = sbn.getPostTime();
-            String text = sbn.getNotification().extras.get(Notification.EXTRA_BIG_TEXT).toString();
-            Double price = extract_cost_dot(text);
+            String text = "None";
+            Double price = 0.00;
+            if (sbn.getNotification().extras.containsKey(Notification.EXTRA_BIG_TEXT)) {
+                text = sbn.getNotification().extras.get(Notification.EXTRA_BIG_TEXT).toString();
+                price = extract_cost_dot(text);
+            }
             String notification = notificationId + ":" + text + ":" + price + ":" + time;
             Intent intent = new  Intent("com.example.natwestspendingtracker");
             intent.putExtra("Notification", notification);

@@ -16,6 +16,6 @@ public interface PurchasedItemDao {
     @Query("DELETE FROM purchased_items")
     void deleteAll();
 
-    @Query("SELECT * FROM purchased_items")
+    @Query("SELECT * FROM purchased_items ORDER BY date ASC")
     LiveData<List<PurchasedItem>> getPurchasedItems();
 }

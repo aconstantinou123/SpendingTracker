@@ -5,6 +5,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.Date;
+
 
 @Entity(tableName = "purchased_items")
 public class PurchasedItem {
@@ -18,9 +20,9 @@ public class PurchasedItem {
     public double itemPrice;
 
     @ColumnInfo(name = "date")
-    public long  date;
+    public Date date;
 
-    public PurchasedItem(@NonNull int uid, @NonNull String itemDescription, double itemPrice, long date) {
+    public PurchasedItem(@NonNull int uid, @NonNull String itemDescription, double itemPrice, Date date) {
         this.uid = uid;
         this.itemDescription = itemDescription;
         this.itemPrice = itemPrice;
