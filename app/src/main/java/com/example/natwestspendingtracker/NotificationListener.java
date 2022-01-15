@@ -15,6 +15,7 @@ public class NotificationListener extends NotificationListenerService {
 
     private String TAG = "Notification Received";
     private String NATWEST_NOTIFICATION = "natwest";
+    private String PUSH_BULLET_NOTIFICATION = "pushbullet";
     private ArrayList<String> notifications = new ArrayList<>();
 
     @Override
@@ -50,26 +51,26 @@ public class NotificationListener extends NotificationListenerService {
     }
 
     private void prepareNotification(StatusBarNotification sbn) {
-        int id = sbn.getId();
-        String name = sbn.getPackageName();
-        String text = "None";
-        if (sbn.getNotification().extras.containsKey(Notification.EXTRA_BIG_TEXT)) {
-            text = sbn.getNotification().extras.get(Notification.EXTRA_BIG_TEXT).toString();
-
+        if(
+                sbn.getPackageName().contains(NATWEST_NOTIFICATION) ||
+                sbn.getPackageName().contains(PUSH_BULLET_NOTIFICATION)
+        ) {
+            int id = sbn.getId();
+            String name = sbn.getPackageName();
+            long time = sbn.getPostTime();
+            String text = sbn.getNotification().extras.get(Notification.EXTRA_BIG_TEXT).toString();
+            String price = extract_cost_dot(text).toString();
+            String notification = TAG + "\n" +
+                    "id: " + id + "\n" +
+                    "name: " + name + "\n" +
+                    "text: " + text + "\n" +
+                    "price: " + price + "\n" +
+                    "time: " + time;
+            Intent intent = new  Intent("com.example.natwestspendingtracker");
+            intent.putExtra("Notification", notification);
+            sendBroadcast(intent);
         }
-        String price = "0.00";
-        if(sbn.getPackageName().contains(NATWEST_NOTIFICATION)){
-            price = extract_cost_dot(text).toString();
-        }
 
-        String notification = TAG + "\n" +
-                "id: " + id + "\n" +
-                "name: " + name + "\n" +
-                "text: " + text + "\n" +
-                "price: " + price;
-        Intent intent = new  Intent("com.example.natwestspendingtracker");
-        intent.putExtra("Notification", notification);
-        sendBroadcast(intent);
     }
 
     public   Double extract_cost_dot(String cost) {
