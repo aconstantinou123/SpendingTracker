@@ -10,7 +10,7 @@ import java.util.List;
 
 @Dao
 public interface PurchasedItemDao {
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(PurchasedItem purchasedItem);
 
     @Query("DELETE FROM purchased_items")

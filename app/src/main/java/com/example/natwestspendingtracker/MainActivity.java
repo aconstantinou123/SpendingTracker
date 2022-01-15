@@ -67,10 +67,11 @@ public class MainActivity extends AppCompatActivity {
             String receivedNotification = intent.getStringExtra("Notification");
             System.out.println("Notification received " + receivedNotification);
             String[] notificationArray = receivedNotification.split(":");
-            String text = notificationArray[0];
-            double price = Double.parseDouble(notificationArray[1]);
-            long time = Long.parseLong(notificationArray[2]);
-            PurchasedItem purchasedItem = new PurchasedItem(text, price, time);
+            int uid = Integer.parseInt(notificationArray[0]);
+            String text = notificationArray[1];
+            double price = Double.parseDouble(notificationArray[2]);
+            long time = Long.parseLong(notificationArray[3]);
+            PurchasedItem purchasedItem = new PurchasedItem(uid, text, price, time);
             mPurchasedItemViewModel.insert(purchasedItem);
         }
 

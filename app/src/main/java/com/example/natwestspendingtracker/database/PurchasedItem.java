@@ -20,7 +20,8 @@ public class PurchasedItem {
     @ColumnInfo(name = "date")
     public long  date;
 
-    public PurchasedItem(@NonNull String itemDescription, double itemPrice, long date) {
+    public PurchasedItem(@NonNull int uid, @NonNull String itemDescription, double itemPrice, long date) {
+        this.uid = uid;
         this.itemDescription = itemDescription;
         this.itemPrice = itemPrice;
         this.date = date;

@@ -50,11 +50,11 @@ public class NotificationListener extends NotificationListenerService {
                 sbn.getPackageName().contains(NATWEST_NOTIFICATION) ||
                 sbn.getPackageName().contains(PUSH_BULLET_NOTIFICATION)
         ) {
+            int notificationId = sbn.getId();
             long time = sbn.getPostTime();
             String text = sbn.getNotification().extras.get(Notification.EXTRA_BIG_TEXT).toString();
             Double price = extract_cost_dot(text);
-
-            String notification = text + ":" + price + ":" + time;
+            String notification = notificationId + ":" + text + ":" + price + ":" + time;
             Intent intent = new  Intent("com.example.natwestspendingtracker");
             intent.putExtra("Notification", notification);
             sendBroadcast(intent);
