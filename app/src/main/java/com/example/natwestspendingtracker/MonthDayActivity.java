@@ -58,8 +58,8 @@ public class MonthDayActivity extends AppCompatActivity {
         mPurchasedItemViewModel.getPurchasedItemsByMonth(monthNum).observe(this, purchasedItems -> {
             itemsAdapter.clear();
             // Update the cached copy of the purchased items in the adapter.
-            System.out.println(purchasedItems);
             for(PurchasedItem purchasedItem : purchasedItems) {
+                System.out.println("time: " + purchasedItem.date.getTime());
                 itemsAdapter.add(purchasedItem.toString());
             }
         });

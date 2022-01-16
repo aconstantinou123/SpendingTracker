@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
             String receivedNotification = intent.getStringExtra("Notification");
             System.out.println("Notification received " + receivedNotification);
             String[] notificationArray = receivedNotification.split(":");
-            int uid = Integer.parseInt(notificationArray[0]);
+            long uid = Long.parseLong(notificationArray[0]);
             String text = notificationArray[1];
             double price = Double.parseDouble(notificationArray[2]);
             Date time = new Date(Long.parseLong(notificationArray[3]));

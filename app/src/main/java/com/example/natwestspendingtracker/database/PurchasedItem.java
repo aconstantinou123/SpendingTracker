@@ -11,7 +11,7 @@ import java.util.Date;
 @Entity(tableName = "purchased_items")
 public class PurchasedItem {
     @PrimaryKey(autoGenerate = true)
-    public int uid;
+    public long uid;
 
     @ColumnInfo(name = "item_description")
     public String itemDescription;
@@ -31,7 +31,7 @@ public class PurchasedItem {
     @ColumnInfo(name = "week")
     public int week;
 
-    public PurchasedItem(@NonNull int uid, @NonNull String itemDescription, double itemPrice, Date date, int month, int year, int week) {
+    public PurchasedItem(@NonNull long uid, @NonNull String itemDescription, double itemPrice, Date date, int month, int year, int week) {
         this.uid = uid;
         this.itemDescription = itemDescription;
         this.itemPrice = itemPrice;
