@@ -12,14 +12,12 @@ class PurchasedItemRepository {
     private PurchasedItemDao mPurchasedItemDao;
     private LiveData<List<PurchasedItem>> mAllPurchasedItems;
     private LiveData<List<Date>> mAllPurchasedItemDates;
-    private LiveData<List<Integer>> months;
 
     PurchasedItemRepository(Application application) {
         PurchasedItemsRoomDatabase db = PurchasedItemsRoomDatabase.getDatabase(application);
         mPurchasedItemDao = db.purchasedItemDao();
         mAllPurchasedItems = mPurchasedItemDao.getPurchasedItems();
         mAllPurchasedItemDates = mPurchasedItemDao.getPurchasedItemDates();
-        months = mPurchasedItemDao.getMonths();
     }
 
     // Room executes all queries on a separate thread.
@@ -29,8 +27,6 @@ class PurchasedItemRepository {
     }
 
     public LiveData<List<Date>> getAllPurchasedItemDates() { return mAllPurchasedItemDates; }
-
-    public LiveData<List<Integer>> getMonths() { return months; }
 
     public  LiveData<List<PurchasedItem>> getPurchasedItemsByMonth(int month) {
         return mPurchasedItemDao.getPurchasedItemsByMonth(month);

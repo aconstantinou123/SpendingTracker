@@ -20,9 +20,6 @@ public interface PurchasedItemDao {
     @Query("SELECT * FROM purchased_items ORDER BY date ASC")
     LiveData<List<PurchasedItem>> getPurchasedItems();
 
-    @Query("SELECT strftime('%m', date) FROM purchased_items ORDER BY date ASC")
-    LiveData<List<Integer>> getMonths();
-
     @Query("SELECT date FROM purchased_items ORDER BY date ASC")
     LiveData<List<Date>> getPurchasedItemDates();
 
