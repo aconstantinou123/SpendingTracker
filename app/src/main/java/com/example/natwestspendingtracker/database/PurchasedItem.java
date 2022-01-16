@@ -22,11 +22,23 @@ public class PurchasedItem {
     @ColumnInfo(name = "date")
     public Date date;
 
-    public PurchasedItem(@NonNull int uid, @NonNull String itemDescription, double itemPrice, Date date) {
+    @ColumnInfo(name = "month")
+    public int month;
+
+    @ColumnInfo(name = "year")
+    public int year;
+
+    @ColumnInfo(name = "week")
+    public int week;
+
+    public PurchasedItem(@NonNull int uid, @NonNull String itemDescription, double itemPrice, Date date, int month, int year, int week) {
         this.uid = uid;
         this.itemDescription = itemDescription;
         this.itemPrice = itemPrice;
         this.date = date;
+        this.month = month;
+        this.year = year;
+        this.week = week;
     }
 
     @Override
@@ -36,6 +48,9 @@ public class PurchasedItem {
                 ", itemDescription='" + itemDescription + '\'' +
                 ", itemPrice=" + itemPrice +
                 ", date=" + date +
+                ", month=" + month +
+                ", year=" + year +
+                ", week=" + week +
                 '}';
     }
 }

@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
+import java.util.Date;
 import java.util.List;
 
 @Dao
@@ -18,4 +19,13 @@ public interface PurchasedItemDao {
 
     @Query("SELECT * FROM purchased_items ORDER BY date ASC")
     LiveData<List<PurchasedItem>> getPurchasedItems();
+
+    @Query("SELECT strftime('%m', date) FROM purchased_items ORDER BY date ASC")
+    LiveData<List<Integer>> getMonths();
+
+    @Query("SELECT date FROM purchased_items ORDER BY date ASC")
+    LiveData<List<Date>> getPurchasedItemDates();
+
+    @Query("SELECT * FROM purchased_items WHERE month = :month ORDER BY date ASC")
+    LiveData<List<PurchasedItem>> getPurchasedItemsByMonth(int month);
 }

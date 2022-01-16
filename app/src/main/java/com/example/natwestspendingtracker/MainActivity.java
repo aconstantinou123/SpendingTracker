@@ -1,7 +1,6 @@
 package com.example.natwestspendingtracker;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.BroadcastReceiver;
@@ -9,20 +8,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.view.View;
 
 import com.example.natwestspendingtracker.database.PurchasedItem;
 import com.example.natwestspendingtracker.database.PurchasedItemViewModel;
 
-import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ArrayList<String> items;
-    private ArrayAdapter<String> itemsAdapter;
-    private ListView lvItems;
     private NotificationReceiver notificationReceiver;
     private PurchasedItemViewModel mPurchasedItemViewModel;
 
@@ -31,34 +26,21 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (!NotificationManagerCompat.getEnabledListenerPackages(this).contains(getPackageName())) {        //ask for permission
-            Intent intent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
-            startActivity(intent);
-        }
-
         notificationReceiver = new NotificationReceiver();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("com.example.natwestspendingtracker");
         registerReceiver(notificationReceiver,intentFilter);
 
-        lvItems = (ListView) findViewById(R.id.lvItems);
-        items = new ArrayList<String>();
-        itemsAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, items);
-        lvItems.setAdapter(itemsAdapter);
         mPurchasedItemViewModel = new ViewModelProvider(
                 this,
                 ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(PurchasedItemViewModel.class);
 
 //        mPurchasedItemViewModel.deleteAll();
+    }
 
-        mPurchasedItemViewModel.getAllPurchasedItems().observe(this, purchasedItems -> {
-            itemsAdapter.clear();
-            // Update the cached copy of the purchased items in the adapter.
-            for(PurchasedItem purchasedItem : purchasedItems) {
-                itemsAdapter.add(purchasedItem.toString());
-            }
-        });
+    public void onMonthlyButtonClicked(View button){
+        Intent intent = new Intent(this, MonthsActivity.class);
+        startActivity(intent);
     }
 
     public class NotificationReceiver extends BroadcastReceiver {
@@ -72,7 +54,12 @@ public class MainActivity extends AppCompatActivity {
             String text = notificationArray[1];
             double price = Double.parseDouble(notificationArray[2]);
             Date time = new Date(Long.parseLong(notificationArray[3]));
-            PurchasedItem purchasedItem = new PurchasedItem(uid, text, price, time);
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(time);
+            int month = cal.get(Calendar.MONTH);
+            int year = cal.get(Calendar.YEAR);
+            int week = cal.get(Calendar.WEEK_OF_YEAR);
+            PurchasedItem purchasedItem = new PurchasedItem(uid, text, price, time, month, year, week);
             mPurchasedItemViewModel.insert(purchasedItem);
         }
 
