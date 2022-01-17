@@ -13,11 +13,8 @@ import android.widget.ListView;
 import com.example.natwestspendingtracker.database.PurchasedItemViewModel;
 
 import java.text.SimpleDateFormat;
-import java.time.Month;
-import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Locale;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -48,6 +45,7 @@ public class WeekDays extends AppCompatActivity {
                 ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(PurchasedItemViewModel.class);
 
         format = new SimpleDateFormat("dd MMMM yyyy");
+
         mPurchasedItemViewModel.getPurchasedItemsCurrentWeekDates(currentWeek).observe(this, dates -> {
             itemsAdapter.clear();
             // Update the cached copy of the purchased items in the adapter.

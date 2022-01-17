@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
             String buttonText = "Current Day"
                     + System.getProperty("line.separator")
                     + "£"
-                    + currentDayTotal;
+                    +  String.format("%.2f", currentDayTotal);
             currentDayButton.setText(buttonText);
             if(currentDayTotal >= 50.00){
                 currentDayButton.setBackgroundColor(Color.parseColor("#FF0000"));
@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
             String buttonText = "Current Week"
                     + System.getProperty("line.separator")
                     + "£"
-                    + currentDayTotal;
+                    + String.format("%.2f", currentWeekTotal);
             currentWeekButton.setText(buttonText);
             if(currentWeekTotal >= 200.00){
                 currentWeekButton.setBackgroundColor(Color.parseColor("#FF0000"));
