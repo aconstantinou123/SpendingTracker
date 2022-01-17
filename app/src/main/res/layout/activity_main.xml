@@ -10,20 +10,34 @@ tools:context=".MainActivity">
         android:id="@+id/currentDayButton"
         android:layout_width="188dp"
         android:layout_height="90dp"
-        android:onClick="onMonthlyCurrentDayButtonClicked"
+        android:onClick="onCurrentDayButtonClicked"
         android:text="Current Day"
         app:layout_constraintBottom_toTopOf="@+id/monthButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.687" />
+        app:layout_constraintVertical_bias="0.308" />
+
+    <Button
+        android:id="@+id/currentWeekButton"
+        android:layout_width="188dp"
+        android:layout_height="90dp"
+        android:onClick="onCurrentWeekButtonClicked"
+        android:text="Current Week"
+        app:layout_constraintBottom_toTopOf="@+id/monthButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/currentDayButton"
+        app:layout_constraintVertical_bias="0.531" />
+
 
     <Button
         android:id="@+id/monthButton"
         android:layout_width="188dp"
         android:layout_height="90dp"
-        android:layout_marginBottom="440dp"
+        android:layout_marginBottom="236dp"
         android:onClick="onMonthlyButtonClicked"
         android:text="Month"
         app:layout_constraintBottom_toBottomOf="parent"

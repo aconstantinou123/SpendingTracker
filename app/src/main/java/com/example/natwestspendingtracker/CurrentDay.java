@@ -29,8 +29,8 @@ public class CurrentDay extends AppCompatActivity {
         setContentView(R.layout.activity_current_day);
 
         Intent intent = getIntent();
-        todayStart = (Calendar) intent.getSerializableExtra("todayStart");
-        todayEnd = (Calendar) intent.getSerializableExtra("todayEnd");
+        todayStart = (Calendar) intent.getSerializableExtra("dayStart");
+        todayEnd = (Calendar) intent.getSerializableExtra( "dayEnd");
 
         lvItems = (ListView) findViewById(R.id.lvItems);
         items = new ArrayList<String>();
