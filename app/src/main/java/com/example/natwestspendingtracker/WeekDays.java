@@ -57,8 +57,6 @@ public class WeekDays extends AppCompatActivity {
                 } else {
                     tv.setBackgroundColor(Color.parseColor("#00FF00"));
                 }
-
-                // Generate ListView Item using TextView
                 return view;
             }
         };

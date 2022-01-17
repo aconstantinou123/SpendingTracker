@@ -70,13 +70,5 @@ public class MonthsActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-//        mPurchasedItemViewModel.getAllPurchasedItems().observe(this, purchasedItems -> {
-//            itemsAdapter.clear();
-//            // Update the cached copy of the purchased items in the adapter.
-//            for(PurchasedItem purchasedItem : purchasedItems) {
-//                itemsAdapter.add(purchasedItem.toString());
-//            }
-//        });
     }
 }
