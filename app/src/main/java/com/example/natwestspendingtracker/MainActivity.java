@@ -71,7 +71,10 @@ public class MainActivity extends AppCompatActivity {
                 todayStart.getTime().getTime(),
                 todayEnd.getTime().getTime()
         ).observe(this, total -> {
-            currentDayTotal = total;
+            currentDayTotal = 0.00;
+            if(total != null) {
+                currentDayTotal = total;
+            }
             String buttonText = "Current Day"
                     + System.getProperty("line.separator")
                     + "£"
