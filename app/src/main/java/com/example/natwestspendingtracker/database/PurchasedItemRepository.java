@@ -32,6 +32,16 @@ class PurchasedItemRepository {
         return mPurchasedItemDao.getPurchasedItemsByMonth(month);
     }
 
+    public  LiveData<List<PurchasedItem>> getPurchasedItemsCurrentDay(long dayst, long dayend) {
+        return mPurchasedItemDao.getPurchasedItemsCurrentDay(dayst, dayend);
+    }
+
+    public LiveData<Double> getPurchasedItemsCurrentDayTotal(long dayst, long dayend) {
+        return mPurchasedItemDao.getPurchasedItemsCurrentDayTotal(dayst, dayend);
+    }
+
+
+
     public void deleteAll () {
         PurchasedItemsRoomDatabase.databaseWriteExecutor.execute(() -> {
             mPurchasedItemDao.deleteAll();

@@ -28,6 +28,14 @@ public class PurchasedItemViewModel extends AndroidViewModel {
         return mRepository.getPurchasedItemsByMonth(month);
     }
 
+    public LiveData<List<PurchasedItem>> getPurchasedItemsCurrentDay(long dayst, long dayend) {
+        return mRepository.getPurchasedItemsCurrentDay(dayst, dayend);
+    }
+
+    public LiveData<Double> getPurchasedItemsCurrentDayTotal(long dayst, long dayend) {
+        return mRepository.getPurchasedItemsCurrentDayTotal(dayst, dayend);
+    }
+
     public LiveData<List<Date>> getAllPurchasedItemDates() { return mAllPurchasedItemDates; };
 
     public void insert(PurchasedItem purchasedItem) { mRepository.insert(purchasedItem); }

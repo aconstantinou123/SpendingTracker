@@ -25,4 +25,10 @@ public interface PurchasedItemDao {
 
     @Query("SELECT * FROM purchased_items WHERE month = :month ORDER BY date ASC")
     LiveData<List<PurchasedItem>> getPurchasedItemsByMonth(int month);
+
+    @Query("SELECT * FROM purchased_items WHERE date  BETWEEN :dayst AND :dayend")
+    LiveData<List<PurchasedItem>> getPurchasedItemsCurrentDay(long dayst, long dayend);
+
+    @Query("SELECT SUM(item_price) FROM purchased_items WHERE date  BETWEEN :dayst AND :dayend")
+    LiveData<Double> getPurchasedItemsCurrentDayTotal(long dayst, long dayend);
 }

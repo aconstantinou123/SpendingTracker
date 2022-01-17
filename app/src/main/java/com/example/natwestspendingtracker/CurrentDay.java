@@ -11,39 +11,26 @@ import android.widget.ListView;
 import com.example.natwestspendingtracker.database.PurchasedItem;
 import com.example.natwestspendingtracker.database.PurchasedItemViewModel;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 
-public class MonthDayActivity extends AppCompatActivity {
+public class CurrentDay extends AppCompatActivity {
 
     private ArrayList<String> items;
     private ArrayAdapter<String> itemsAdapter;
     private ListView lvItems;
-    private String month;
     private PurchasedItemViewModel mPurchasedItemViewModel;
+    private Calendar todayStart;
+    private Calendar todayEnd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Intent intent = getIntent();
-        month = (String) intent.getSerializableExtra("month");
-
-        Date date = null;
-        try {
-            date = new SimpleDateFormat("MMM", Locale.ENGLISH).parse(month);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        int monthNum = cal.get(Calendar.MONTH);
-
-        System.out.println("Month: " + monthNum);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_month_day);
+        setContentView(R.layout.activity_current_day);
+
+        Intent intent = getIntent();
+        todayStart = (Calendar) intent.getSerializableExtra("todayStart");
+        todayEnd = (Calendar) intent.getSerializableExtra("todayEnd");
 
         lvItems = (ListView) findViewById(R.id.lvItems);
         items = new ArrayList<String>();
@@ -55,7 +42,10 @@ public class MonthDayActivity extends AppCompatActivity {
                 this,
                 ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(PurchasedItemViewModel.class);
 
-        mPurchasedItemViewModel.getPurchasedItemsByMonth(monthNum).observe(this, purchasedItems -> {
+        mPurchasedItemViewModel.getPurchasedItemsCurrentDay(
+                todayStart.getTime().getTime(),
+                todayEnd.getTime().getTime()
+        ).observe(this, purchasedItems -> {
             itemsAdapter.clear();
             // Update the cached copy of the purchased items in the adapter.
             for(PurchasedItem purchasedItem : purchasedItems) {
