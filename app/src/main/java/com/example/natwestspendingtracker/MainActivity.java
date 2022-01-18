@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private Calendar todayStart;
     private Calendar todayEnd;
     private int currentWeek;
+    private int currentYear;
     private Double currentDayTotal;
     private Double currentWeekTotal;
     private Button currentDayButton;
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         todayEnd.set(Calendar.SECOND, 59);
 
         currentWeek = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
+        currentYear = Calendar.getInstance().get(Calendar.YEAR);
 
         notificationReceiver = new NotificationReceiver();
         IntentFilter intentFilter = new IntentFilter();
@@ -110,15 +112,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onCurrentDayButtonClicked(View button){
-        Intent intent = new Intent(this, CurrentDay.class);
+        Intent intent = new Intent(this, DayActivity.class);
         intent.putExtra("dayStart", todayStart);
         intent.putExtra("dayEnd", todayEnd);
         startActivity(intent);
     }
 
     public void onCurrentWeekButtonClicked(View button){
-        Intent intent = new Intent(this, WeekDays.class);
-        intent.putExtra("currentWeek", currentWeek);
+        Intent intent = new Intent(this, WeekDaysActivity.class);
+        intent.putExtra("week", currentWeek);
+        intent.putExtra("year", currentYear);
+        startActivity(intent);
+    }
+
+    public void onWeeklyButtonClicked(View button){
+        Intent intent = new Intent(this, WeeksActivity.class);
         startActivity(intent);
     }
 

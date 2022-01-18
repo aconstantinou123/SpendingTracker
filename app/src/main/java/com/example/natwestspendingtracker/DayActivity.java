@@ -5,45 +5,38 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.natwestspendingtracker.database.PurchasedItem;
 import com.example.natwestspendingtracker.database.PurchasedItemViewModel;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 
-public class MonthDayActivity extends AppCompatActivity {
+public class DayActivity extends AppCompatActivity {
 
     private ArrayList<String> items;
     private ArrayAdapter<String> itemsAdapter;
+    private ArrayList<PurchasedItem> purchasedItemsCopy;
     private ListView lvItems;
-    private String month;
     private PurchasedItemViewModel mPurchasedItemViewModel;
+    private Calendar todayStart;
+    private Calendar todayEnd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Intent intent = getIntent();
-        month = (String) intent.getSerializableExtra("month");
-
-        Date date = null;
-        try {
-            date = new SimpleDateFormat("MMM", Locale.ENGLISH).parse(month);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        int monthNum = cal.get(Calendar.MONTH);
-
-        System.out.println("Month: " + monthNum);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_month_day);
+        setContentView(R.layout.activity_day);
+
+        purchasedItemsCopy = new ArrayList<>();
+
+        Intent intent = getIntent();
+        todayStart = (Calendar) intent.getSerializableExtra("dayStart");
+        todayEnd = (Calendar) intent.getSerializableExtra( "dayEnd");
 
         lvItems = (ListView) findViewById(R.id.lvItems);
         items = new ArrayList<String>();
@@ -55,11 +48,26 @@ public class MonthDayActivity extends AppCompatActivity {
                 this,
                 ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(PurchasedItemViewModel.class);
 
-        mPurchasedItemViewModel.getPurchasedItemsByMonth(monthNum).observe(this, purchasedItems -> {
+        mPurchasedItemViewModel.getPurchasedItemsCurrentDay(
+                todayStart.getTime().getTime(),
+                todayEnd.getTime().getTime()
+        ).observe(this, purchasedItems -> {
             itemsAdapter.clear();
             // Update the cached copy of the purchased items in the adapter.
             for(PurchasedItem purchasedItem : purchasedItems) {
+                purchasedItemsCopy.add(purchasedItem);
                 itemsAdapter.add(purchasedItem.itemDescription);
+            }
+        });
+
+        lvItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int pos, long id) {
+
+                Toast.makeText(getApplicationContext(), purchasedItemsCopy.get(pos).itemDescription, Toast.LENGTH_SHORT).show();
+                mPurchasedItemViewModel.deleteByPurchasedItemId(purchasedItemsCopy.get(pos).uid);
+                purchasedItemsCopy.remove(purchasedItemsCopy.get(pos));
+                return true;
             }
         });
     }

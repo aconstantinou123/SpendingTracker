@@ -1,11 +1,10 @@
 package com.example.natwestspendingtracker;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,25 +19,33 @@ import com.example.natwestspendingtracker.database.PurchasedItemViewModel;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
-public class MonthsActivity extends AppCompatActivity {
+public class WeekDaysActivity extends AppCompatActivity {
 
     private ArrayList<String> items;
     private ArrayAdapter<String> itemsAdapter;
     private ListView lvItems;
-    private SimpleDateFormat format;
     private PurchasedItemViewModel mPurchasedItemViewModel;
+    private int week;
+    private int year;
+    private SimpleDateFormat format;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_months);
+        setContentView(R.layout.activity_week_days);
+
+        intent = getIntent();
+        week = (int) intent.getSerializableExtra("week");
+        year = (int) intent.getSerializableExtra("year");
 
         lvItems = (ListView) findViewById(R.id.lvItems);
         items = new ArrayList<String>();
-        itemsAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, items) {
+        itemsAdapter = new ArrayAdapter<String>
+                (this, android.R.layout.simple_list_item_1, items){
             @Override
             public View getView(int position, View convertView, ViewGroup parent){
                 View view = super.getView(position, convertView, parent);
@@ -46,27 +53,29 @@ public class MonthsActivity extends AppCompatActivity {
                 String fullDate = (String) lvItems.getItemAtPosition(position);
                 Double total = Double.parseDouble(fullDate.split("£")[1]);
                 tv.setTextColor(Color.BLACK);
-                if(total >= 1000.00){
+                if(total >= 50.00){
                     tv.setBackgroundColor(Color.parseColor("#FF0000"));
-                } else if(total >= 800.00) {
+                } else if(total >= 20.00) {
                     tv.setBackgroundColor(Color.parseColor("#FFBF00"));
                 } else {
                     tv.setBackgroundColor(Color.parseColor("#00FF00"));
                 }
                 return view;
             }
-        };;
+        };
+
         lvItems.setAdapter(itemsAdapter);
+
         mPurchasedItemViewModel = new ViewModelProvider(
                 this,
                 ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(PurchasedItemViewModel.class);
 
-        format = new SimpleDateFormat("MMMM yyyy");
+        format = new SimpleDateFormat("dd MMMM yyyy");
 
-        mPurchasedItemViewModel.getPurchasedItemTotalByMonth().observe(this, dayTotalTuples -> {
+        mPurchasedItemViewModel.getPurchasedItemTotalByDay(week, year).observe(this, dayTotalTuples -> {
             itemsAdapter.clear();
             for(DateStringTotalTuple dateStringTotalTuple : dayTotalTuples) {
-                SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM");
+                SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
                 try {
                     Date date = dt.parse(dateStringTotalTuple.day);
                     String strDate = format.format(date.getTime());
@@ -85,12 +94,23 @@ public class MonthsActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id) {
-                Intent intent = new Intent(getApplicationContext(), MonthDaysActivity.class);
-                String monthYear = (String) lvItems.getItemAtPosition(position);
-                String month = monthYear.split(" ")[0];
-                String year = monthYear.split(" ")[1];
-                intent.putExtra("month", month);
-                intent.putExtra("year", year);
+                Intent intent = new Intent(getApplicationContext(), DayActivity.class);
+                String fullDate = (String) lvItems.getItemAtPosition(position);
+
+                Integer date = Integer.parseInt(fullDate.split(" ")[0]);
+                Calendar dayStart= Calendar.getInstance();
+                dayStart.set(Calendar.DATE, date);
+                dayStart.set(Calendar.HOUR_OF_DAY,0);
+                dayStart.set(Calendar.MINUTE,0);
+                dayStart.set(Calendar.SECOND,0);
+                intent.putExtra("dayStart", dayStart);
+
+                Calendar dayEnd = Calendar.getInstance();
+                dayEnd.set(Calendar.DATE, date);
+                dayEnd.set(Calendar.HOUR_OF_DAY, 23);
+                dayEnd.set(Calendar.MINUTE, 59);
+                dayEnd.set(Calendar.SECOND, 59);
+                intent.putExtra("dayEnd", dayEnd);
                 startActivity(intent);
             }
         });

@@ -1,29 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.natwestspendingtracker">
+    package="com.example.natwestspendingtracker" >
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="Daily Spending Tracker"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.NatwestSpendingTracker">
+        android:theme="@style/Theme.NatwestSpendingTracker" >
         <activity
-            android:name=".WeekDays"
+            android:name=".WeeksActivity"
             android:exported="false" />
         <activity
-            android:name=".CurrentDay"
+            android:name=".WeekDaysActivity"
             android:exported="false" />
         <activity
-            android:name=".MonthDayActivity"
+            android:name=".DayActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MonthDaysActivity"
             android:exported="false" />
         <activity
             android:name=".MonthsActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,7 +38,7 @@
             android:name=".NotificationListener"
             android:exported="true"
             android:label="@string/app_name"
-            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE" >
             <intent-filter>
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>

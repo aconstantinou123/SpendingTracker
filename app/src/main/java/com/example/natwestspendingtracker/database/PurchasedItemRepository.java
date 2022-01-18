@@ -12,12 +12,16 @@ class PurchasedItemRepository {
     private PurchasedItemDao mPurchasedItemDao;
     private LiveData<List<PurchasedItem>> mAllPurchasedItems;
     private LiveData<List<Date>> mAllPurchasedItemDates;
+    private LiveData<List<DateStringTotalTuple>> mPurchasedItemTotalByMonth;
+    private LiveData<List<WeekYearTotalTuple>> mPurchasedItemTotalByWeekYear;
 
     PurchasedItemRepository(Application application) {
         PurchasedItemsRoomDatabase db = PurchasedItemsRoomDatabase.getDatabase(application);
         mPurchasedItemDao = db.purchasedItemDao();
         mAllPurchasedItems = mPurchasedItemDao.getPurchasedItems();
         mAllPurchasedItemDates = mPurchasedItemDao.getPurchasedItemDates();
+        mPurchasedItemTotalByMonth = mPurchasedItemDao.getPurchasedItemTotalByMonths();
+        mPurchasedItemTotalByWeekYear = mPurchasedItemDao.getPurchasedItemTotalByWeekYear();
     }
 
     public LiveData<List<PurchasedItem>> getAllPurchasedItems() {
@@ -50,8 +54,20 @@ class PurchasedItemRepository {
         });
     }
 
-    public LiveData<List<DayTotalTuple>> getPurchasedItemTotalByDay(int week) {
-        return mPurchasedItemDao.getPurchasedItemTotalByDay(week);
+    public LiveData<List<DateStringTotalTuple>> getPurchasedItemTotalByDay(int week, int year) {
+        return mPurchasedItemDao.getPurchasedItemTotalByDay(week, year);
+    }
+
+    public LiveData<List<DateStringTotalTuple>> getPurchasedItemTotalByMonthDay(int week, int year) {
+        return mPurchasedItemDao.getPurchasedItemTotalByMonthDay(week, year);
+    }
+
+    public LiveData<List<DateStringTotalTuple>> getPurchasedItemTotalByMonth() {
+        return mPurchasedItemTotalByMonth;
+    }
+
+    public LiveData<List<WeekYearTotalTuple>> getPurchasedItemTotalByWeekYear() {
+        return mPurchasedItemTotalByWeekYear;
     }
 
     public void deleteAll () {

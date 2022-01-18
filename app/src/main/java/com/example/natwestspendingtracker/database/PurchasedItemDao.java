@@ -44,7 +44,29 @@ public interface PurchasedItemDao {
     @Query("SELECT strftime('%Y-%m-%d', datetime(date/1000, 'unixepoch')) AS day, " +
             "SUM(item_price) AS total " +
             "FROM purchased_items " +
-            "WHERE week = :week " +
-            "GROUP BY strftime('%d', datetime(date/1000, 'unixepoch'))")
-    LiveData<List<DayTotalTuple>> getPurchasedItemTotalByDay(int week);
+            "WHERE (week = :week AND year = :year)" +
+            "GROUP BY strftime('%d', datetime(date/1000, 'unixepoch'))" +
+            "ORDER BY date DESC")
+    LiveData<List<DateStringTotalTuple>> getPurchasedItemTotalByDay(int week, int year);
+
+    @Query("SELECT strftime('%Y-%m', datetime(date/1000, 'unixepoch')) AS day, " +
+            "SUM(item_price) AS total " +
+            "FROM purchased_items " +
+            "GROUP BY strftime('%m', datetime(date/1000, 'unixepoch')), " +
+            "strftime('%Y', datetime(date/1000, 'unixepoch'))")
+    LiveData<List<DateStringTotalTuple>> getPurchasedItemTotalByMonths();
+
+    @Query("SELECT strftime('%Y-%m-%d', datetime(date/1000, 'unixepoch')) AS day, " +
+            "SUM(item_price) AS total " +
+            "FROM purchased_items " +
+            "WHERE (month = :month AND year = :year)" +
+            "GROUP BY strftime('%d', datetime(date/1000, 'unixepoch'))" +
+            "ORDER BY date DESC")
+    LiveData<List<DateStringTotalTuple>> getPurchasedItemTotalByMonthDay(int month, int year);
+
+    @Query("SELECT week, year,  SUM(item_price) AS total " +
+            "FROM purchased_items " +
+            "GROUP BY week, year " +
+            "ORDER BY date DESC")
+    LiveData<List<WeekYearTotalTuple>> getPurchasedItemTotalByWeekYear();
 }

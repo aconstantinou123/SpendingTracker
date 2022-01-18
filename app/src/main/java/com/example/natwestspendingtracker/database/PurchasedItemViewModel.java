@@ -14,12 +14,16 @@ public class PurchasedItemViewModel extends AndroidViewModel {
 
     private final LiveData<List<PurchasedItem>> mAllPurchasedItems;
     private final LiveData<List<Date>> mAllPurchasedItemDates;
+    private final LiveData<List<DateStringTotalTuple>> mPurchasedItemTotalByMonth;
+    private final LiveData<List<WeekYearTotalTuple>> mPurchasedItemTotalByWeekYear;
 
     public PurchasedItemViewModel (Application application) {
         super(application);
         mRepository = new PurchasedItemRepository(application);
         mAllPurchasedItems = mRepository.getAllPurchasedItems();
         mAllPurchasedItemDates = mRepository.getAllPurchasedItemDates();
+        mPurchasedItemTotalByMonth = mRepository.getPurchasedItemTotalByMonth();
+        mPurchasedItemTotalByWeekYear = mRepository.getPurchasedItemTotalByWeekYear();
     }
 
     public LiveData<List<PurchasedItem>> getAllPurchasedItems() { return mAllPurchasedItems; }
@@ -43,8 +47,20 @@ public class PurchasedItemViewModel extends AndroidViewModel {
         return mRepository.getPurchasedItemsCurrentWeekTotal(week);
     }
 
-    public LiveData<List<DayTotalTuple>> getPurchasedItemTotalByDay(int week) {
-        return mRepository.getPurchasedItemTotalByDay(week);
+    public LiveData<List<DateStringTotalTuple>> getPurchasedItemTotalByDay(int week, int year) {
+        return mRepository.getPurchasedItemTotalByDay(week, year);
+    }
+
+    public LiveData<List<DateStringTotalTuple>> getPurchasedItemTotalByMonthDay(int week, int year) {
+        return mRepository.getPurchasedItemTotalByMonthDay(week, year);
+    }
+
+    public LiveData<List<DateStringTotalTuple>> getPurchasedItemTotalByMonth() {
+        return mPurchasedItemTotalByMonth;
+    }
+
+    public LiveData<List<WeekYearTotalTuple>> getPurchasedItemTotalByWeekYear() {
+        return mPurchasedItemTotalByWeekYear;
     }
 
     public LiveData<List<Date>> getAllPurchasedItemDates() { return mAllPurchasedItemDates; };
