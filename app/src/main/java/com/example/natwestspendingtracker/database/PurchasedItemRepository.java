@@ -44,7 +44,15 @@ class PurchasedItemRepository {
         return mPurchasedItemDao.getPurchasedItemsCurrentWeekTotal(week);
     }
 
+    public void deleteByPurchasedItemId(long uid) {
+        PurchasedItemsRoomDatabase.databaseWriteExecutor.execute(() -> {
+            mPurchasedItemDao.deleteByPurchasedItemId(uid);
+        });
+    }
 
+    public LiveData<List<DayTotalTuple>> getPurchasedItemTotalByDay(int week) {
+        return mPurchasedItemDao.getPurchasedItemTotalByDay(week);
+    }
 
     public void deleteAll () {
         PurchasedItemsRoomDatabase.databaseWriteExecutor.execute(() -> {

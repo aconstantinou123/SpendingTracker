@@ -5,8 +5,11 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.natwestspendingtracker.database.PurchasedItem;
 import com.example.natwestspendingtracker.database.PurchasedItemViewModel;
@@ -18,6 +21,7 @@ public class CurrentDay extends AppCompatActivity {
 
     private ArrayList<String> items;
     private ArrayAdapter<String> itemsAdapter;
+    private ArrayList<PurchasedItem> purchasedItemsCopy;
     private ListView lvItems;
     private PurchasedItemViewModel mPurchasedItemViewModel;
     private Calendar todayStart;
@@ -27,6 +31,8 @@ public class CurrentDay extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current_day);
+
+        purchasedItemsCopy = new ArrayList<>();
 
         Intent intent = getIntent();
         todayStart = (Calendar) intent.getSerializableExtra("dayStart");
@@ -49,7 +55,19 @@ public class CurrentDay extends AppCompatActivity {
             itemsAdapter.clear();
             // Update the cached copy of the purchased items in the adapter.
             for(PurchasedItem purchasedItem : purchasedItems) {
+                purchasedItemsCopy.add(purchasedItem);
                 itemsAdapter.add(purchasedItem.itemDescription);
+            }
+        });
+
+        lvItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int pos, long id) {
+
+                Toast.makeText(getApplicationContext(), purchasedItemsCopy.get(pos).itemDescription, Toast.LENGTH_SHORT).show();
+                mPurchasedItemViewModel.deleteByPurchasedItemId(purchasedItemsCopy.get(pos).uid);
+                purchasedItemsCopy.remove(purchasedItemsCopy.get(pos));
+                return true;
             }
         });
     }

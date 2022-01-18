@@ -37,4 +37,14 @@ public interface PurchasedItemDao {
 
     @Query("SELECT SUM(item_price) FROM purchased_items WHERE date  BETWEEN :dayst AND :dayend")
     LiveData<Double> getPurchasedItemsCurrentDayTotal(long dayst, long dayend);
+
+    @Query("DELETE FROM purchased_items WHERE uid = :uid")
+    void deleteByPurchasedItemId(long uid);
+
+    @Query("SELECT strftime('%Y-%m-%d', datetime(date/1000, 'unixepoch')) AS day, " +
+            "SUM(item_price) AS total " +
+            "FROM purchased_items " +
+            "WHERE week = :week " +
+            "GROUP BY strftime('%d', datetime(date/1000, 'unixepoch'))")
+    LiveData<List<DayTotalTuple>> getPurchasedItemTotalByDay(int week);
 }

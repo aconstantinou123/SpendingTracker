@@ -13,11 +13,15 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.natwestspendingtracker.database.DayTotalTuple;
 import com.example.natwestspendingtracker.database.PurchasedItemViewModel;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -69,36 +73,21 @@ public class WeekDays extends AppCompatActivity {
 
         format = new SimpleDateFormat("dd MMMM yyyy");
 
-        mPurchasedItemViewModel.getPurchasedItemsCurrentWeekDates(currentWeek).observe(this, dates -> {
+        mPurchasedItemViewModel.getPurchasedItemTotalByDay(currentWeek).observe(this, dayTotalTuples -> {
             itemsAdapter.clear();
-            days = dates.stream().map(date -> {
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(date);
-                return cal.get(Calendar.DATE);
-            }).collect(Collectors.toSet());
-            for(Integer day: days) {
-                Calendar dayStart= Calendar.getInstance();
-                dayStart.set(Calendar.DATE, day);
-                dayStart.set(Calendar.HOUR_OF_DAY,0);
-                dayStart.set(Calendar.MINUTE,0);
-                dayStart.set(Calendar.SECOND,0);
-
-                Calendar dayEnd = Calendar.getInstance();
-                dayEnd.set(Calendar.DATE, day);
-                dayEnd.set(Calendar.HOUR_OF_DAY, 23);
-                dayEnd.set(Calendar.MINUTE, 59);
-                dayEnd.set(Calendar.SECOND, 59);
-                mPurchasedItemViewModel.getPurchasedItemsCurrentDayTotal(
-                        dayStart.getTime().getTime(),
-                        dayEnd.getTime().getTime()
-                ).observe(this, total -> {
-                    String strDate = format.format(dayStart.getTime());
+            for(DayTotalTuple dayTotalTuple : dayTotalTuples) {
+                SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
+                try {
+                    Date date = dt.parse(dayTotalTuple.day);
+                    String strDate = format.format(date.getTime());
                     itemsAdapter.add(
                             strDate
                                     + " £"
-                                    + String.format("%.2f", total)
+                                    + String.format("%.2f", dayTotalTuple.total)
                     );
-                });
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
         });
 

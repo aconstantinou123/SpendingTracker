@@ -43,9 +43,15 @@ public class PurchasedItemViewModel extends AndroidViewModel {
         return mRepository.getPurchasedItemsCurrentWeekTotal(week);
     }
 
+    public LiveData<List<DayTotalTuple>> getPurchasedItemTotalByDay(int week) {
+        return mRepository.getPurchasedItemTotalByDay(week);
+    }
+
     public LiveData<List<Date>> getAllPurchasedItemDates() { return mAllPurchasedItemDates; };
 
     public void insert(PurchasedItem purchasedItem) { mRepository.insert(purchasedItem); }
+
+    public void deleteByPurchasedItemId(long uid) { mRepository.deleteByPurchasedItemId(uid); }
 
     public void deleteAll() { mRepository.deleteAll(); }
 }
