@@ -49,7 +49,6 @@ public class MonthDaysActivity extends AppCompatActivity {
         cal.setTime(date);
         int monthNum = cal.get(Calendar.MONTH);
 
-        System.out.println("Month: " + monthNum);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_month_day);
 

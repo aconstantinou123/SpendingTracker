@@ -10,7 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NatwestSpendingTracker">
         <activity
-            android:name=".DayViewActivity"
+            android:name=".NewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EditActivity"
             android:exported="false" />
         <activity
             android:name=".WeeksActivity"

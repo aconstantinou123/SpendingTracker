@@ -99,6 +99,7 @@ public class WeekDaysActivity extends AppCompatActivity {
 
                 Integer date = Integer.parseInt(fullDate.split(" ")[0]);
                 Calendar dayStart= Calendar.getInstance();
+                dayStart.set(Calendar.YEAR, year);
                 dayStart.set(Calendar.DATE, date);
                 dayStart.set(Calendar.HOUR_OF_DAY,0);
                 dayStart.set(Calendar.MINUTE,0);
@@ -106,6 +107,7 @@ public class WeekDaysActivity extends AppCompatActivity {
                 intent.putExtra("dayStart", dayStart);
 
                 Calendar dayEnd = Calendar.getInstance();
+                dayStart.set(Calendar.YEAR, year);
                 dayEnd.set(Calendar.DATE, date);
                 dayEnd.set(Calendar.HOUR_OF_DAY, 23);
                 dayEnd.set(Calendar.MINUTE, 59);

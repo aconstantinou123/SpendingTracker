@@ -9,10 +9,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.natwestspendingtracker.database.PurchasedItem;
 import com.example.natwestspendingtracker.database.PurchasedItemViewModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -24,8 +24,9 @@ public class DayActivity extends AppCompatActivity {
     private ArrayList<PurchasedItem> purchasedItemsCopy;
     private ListView lvItems;
     private PurchasedItemViewModel mPurchasedItemViewModel;
-    private Calendar todayStart;
-    private Calendar todayEnd;
+    private Calendar dayStart;
+    private Calendar dayEnd;
+    private FloatingActionButton floatingActionButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +36,8 @@ public class DayActivity extends AppCompatActivity {
         purchasedItemsCopy = new ArrayList<>();
 
         Intent intent = getIntent();
-        todayStart = (Calendar) intent.getSerializableExtra("dayStart");
-        todayEnd = (Calendar) intent.getSerializableExtra( "dayEnd");
+        dayStart = (Calendar) intent.getSerializableExtra("dayStart");
+        dayEnd = (Calendar) intent.getSerializableExtra( "dayEnd");
 
         lvItems = (ListView) findViewById(R.id.lvItems);
         items = new ArrayList<String>();
@@ -44,13 +45,15 @@ public class DayActivity extends AppCompatActivity {
                 android.R.layout.simple_list_item_1, items);
         lvItems.setAdapter(itemsAdapter);
 
+        floatingActionButton = (FloatingActionButton) findViewById(R.id.fab);
+
         mPurchasedItemViewModel = new ViewModelProvider(
                 this,
                 ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(PurchasedItemViewModel.class);
 
         mPurchasedItemViewModel.getPurchasedItemsCurrentDay(
-                todayStart.getTime().getTime(),
-                todayEnd.getTime().getTime()
+                dayStart.getTime().getTime(),
+                dayEnd.getTime().getTime()
         ).observe(this, purchasedItems -> {
             purchasedItemsCopy.clear();
             itemsAdapter.clear();
@@ -61,15 +64,24 @@ public class DayActivity extends AppCompatActivity {
             }
         });
 
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent newItemIntent = new Intent(getApplicationContext(), NewActivity.class);
+                Calendar now = Calendar.getInstance();
+                dayStart.set(Calendar.HOUR_OF_DAY, now.get(Calendar.HOUR_OF_DAY));
+                dayStart.set(Calendar.MINUTE, now.get(Calendar.MINUTE));
+                newItemIntent.putExtra("date", dayStart);
+                startActivity(newItemIntent);
+            }
+        });
+
         lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long id) {
-                Intent intentDay = new Intent(getApplicationContext(), DayViewActivity.class);
+                Intent intentDay = new Intent(getApplicationContext(), EditActivity.class);
                 intentDay.putExtra("itemToEdit",  purchasedItemsCopy.get(pos));
                 startActivity(intentDay);
-//                Toast.makeText(getApplicationContext(), purchasedItemsCopy.get(pos).itemDescription, Toast.LENGTH_SHORT).show();
-//                mPurchasedItemViewModel.deleteByPurchasedItemId(purchasedItemsCopy.get(pos).uid);
-//                purchasedItemsCopy.remove(purchasedItemsCopy.get(pos));
             }
         });
     }

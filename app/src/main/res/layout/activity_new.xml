@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DayViewActivity">
+    tools:context=".EditActivity">
 
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
-        android:text="Edit or Delete"
+        android:text="New Purchase"
         android:textColor="#000000"
         android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,6 +24,7 @@
         android:layout_width="330dp"
         android:layout_height="79dp"
         android:layout_marginTop="100dp"
+        android:hint="@string/descriptionHint"
         android:ems="10"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.493"
@@ -36,6 +37,7 @@
         android:layout_height="39dp"
         android:layout_marginTop="200dp"
         android:ems="10"
+        android:hint="@string/priceHint"
         android:inputType="numberDecimal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.493"
@@ -43,12 +45,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/edit_button"
+        android:id="@+id/submit_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="#3F51B5"
-        android:onClick="onEditClicked"
-        android:text="EDIT"
+        android:onClick="onSubmitClicked"
+        android:text="SUBMIT"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -61,14 +63,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="#3F51B5"
-        android:onClick="onDeleteClicked"
-        android:text="DELETE"
+        android:onClick="onCancelClicked"
+        android:text="Cancel"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/edit_button"
+        app:layout_constraintEnd_toStartOf="@+id/submit_button"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.976" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

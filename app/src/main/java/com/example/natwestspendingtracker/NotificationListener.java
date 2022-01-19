@@ -32,7 +32,6 @@ public class NotificationListener extends NotificationListenerService {
 
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
-        System.out.println("onNotificationPosted");
         prepareNotification(sbn);
     }
 

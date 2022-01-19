@@ -94,7 +94,6 @@ public class MainActivity extends AppCompatActivity {
         mPurchasedItemViewModel.getPurchasedItemsCurrentWeekTotal(
                 currentWeek
         ).observe(this, total -> {
-            System.out.println("total: " + total);
             currentWeekTotal = total;
             String buttonText = "Current Week"
                     + System.getProperty("line.separator")
@@ -140,7 +139,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             String receivedNotification = intent.getStringExtra("Notification");
-            System.out.println("Notification received " + receivedNotification);
             String[] notificationArray = receivedNotification.split(":");
             long uid = Long.parseLong(notificationArray[0]);
             String text = notificationArray[1];

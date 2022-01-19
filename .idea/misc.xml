@@ -3,14 +3,22 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.36666666666666664" />
         <entry key="app/src/main/res/layout/activity_current_day.xml" value="0.17916666666666667" />
+        <entry key="app/src/main/res/layout/activity_day.xml" value="0.75" />
         <entry key="app/src/main/res/layout/activity_day_view.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_landing.xml" value="0.18697916666666667" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.35052083333333334" />
+        <entry key="app/src/main/res/layout/activity_main2.xml" value="0.175" />
         <entry key="app/src/main/res/layout/activity_month_day.xml" value="0.19427083333333334" />
         <entry key="app/src/main/res/layout/activity_monthly.xml" value="0.35052083333333334" />
+        <entry key="app/src/main/res/layout/activity_new.xml" value="0.19427083333333334" />
         <entry key="app/src/main/res/layout/activity_week_days.xml" value="0.17864583333333334" />
         <entry key="app/src/main/res/layout/activity_weeks.xml" value="0.35052083333333334" />
+        <entry key="app/src/main/res/layout/content_main.xml" value="0.175" />
+        <entry key="app/src/main/res/layout/edit_view.xml" value="0.19427083333333334" />
+        <entry key="app/src/main/res/layout/fragment_first.xml" value="0.175" />
+        <entry key="app/src/main/res/layout/fragment_second.xml" value="0.175" />
       </map>
     </option>
   </component>
