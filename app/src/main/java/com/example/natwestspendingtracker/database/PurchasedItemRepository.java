@@ -30,10 +30,6 @@ class PurchasedItemRepository {
 
     public LiveData<List<Date>> getAllPurchasedItemDates() { return mAllPurchasedItemDates; }
 
-    public  LiveData<List<PurchasedItem>> getPurchasedItemsByMonth(int month) {
-        return mPurchasedItemDao.getPurchasedItemsByMonth(month);
-    }
-
     public  LiveData<List<PurchasedItem>> getPurchasedItemsCurrentDay(long dayst, long dayend) {
         return mPurchasedItemDao.getPurchasedItemsCurrentDay(dayst, dayend);
     }
@@ -41,17 +37,9 @@ class PurchasedItemRepository {
     public LiveData<Double> getPurchasedItemsCurrentDayTotal(long dayst, long dayend) {
         return mPurchasedItemDao.getPurchasedItemsCurrentDayTotal(dayst, dayend);
     }
-    public LiveData<List<Date>> getPurchasedItemsCurrentWeekDates(int week) {
-        return mPurchasedItemDao.getPurchasedItemsCurrentWeekDates(week);
-    }
+
     public LiveData<Double> getPurchasedItemsCurrentWeekTotal(int week) {
         return mPurchasedItemDao.getPurchasedItemsCurrentWeekTotal(week);
-    }
-
-    public void deleteByPurchasedItemId(long uid) {
-        PurchasedItemsRoomDatabase.databaseWriteExecutor.execute(() -> {
-            mPurchasedItemDao.deleteByPurchasedItemId(uid);
-        });
     }
 
     public LiveData<List<DateStringTotalTuple>> getPurchasedItemTotalByDay(int week, int year) {
@@ -70,17 +58,29 @@ class PurchasedItemRepository {
         return mPurchasedItemTotalByWeekYear;
     }
 
-    public void deleteAll () {
-        PurchasedItemsRoomDatabase.databaseWriteExecutor.execute(() -> {
-            mPurchasedItemDao.deleteAll();
-        });
-    }
-
     // You must call this on a non-UI thread or your app will throw an exception. Room ensures
     // that you're not doing any long running operations on the main thread, blocking the UI.
     void insert(PurchasedItem purchasedItem) {
         PurchasedItemsRoomDatabase.databaseWriteExecutor.execute(() -> {
             mPurchasedItemDao.insert(purchasedItem);
+        });
+    }
+
+    void update(PurchasedItem purchasedItem) {
+        PurchasedItemsRoomDatabase.databaseWriteExecutor.execute(() -> {
+            mPurchasedItemDao.update(purchasedItem);
+        });
+    }
+
+    public void deleteByPurchasedItemId(long uid) {
+        PurchasedItemsRoomDatabase.databaseWriteExecutor.execute(() -> {
+            mPurchasedItemDao.deleteByPurchasedItemId(uid);
+        });
+    }
+
+    public void deleteAll () {
+        PurchasedItemsRoomDatabase.databaseWriteExecutor.execute(() -> {
+            mPurchasedItemDao.deleteAll();
         });
     }
 }

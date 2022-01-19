@@ -5,11 +5,12 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
 import java.util.Date;
 
 
 @Entity(tableName = "purchased_items")
-public class PurchasedItem {
+public class PurchasedItem implements Serializable {
     @PrimaryKey(autoGenerate = true)
     public long uid;
 

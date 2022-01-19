@@ -28,10 +28,6 @@ public class PurchasedItemViewModel extends AndroidViewModel {
 
     public LiveData<List<PurchasedItem>> getAllPurchasedItems() { return mAllPurchasedItems; }
 
-    public LiveData<List<PurchasedItem>> getPurchasedItemsByMonth(int month) {
-        return mRepository.getPurchasedItemsByMonth(month);
-    }
-
     public LiveData<List<PurchasedItem>> getPurchasedItemsCurrentDay(long dayst, long dayend) {
         return mRepository.getPurchasedItemsCurrentDay(dayst, dayend);
     }
@@ -40,10 +36,7 @@ public class PurchasedItemViewModel extends AndroidViewModel {
         return mRepository.getPurchasedItemsCurrentDayTotal(dayst, dayend);
     }
 
-    public LiveData<List<Date>> getPurchasedItemsCurrentWeekDates(int week) {
-        return mRepository.getPurchasedItemsCurrentWeekDates(week);
-
-    }public LiveData<Double> getPurchasedItemsCurrentWeekTotal(int week) {
+    public LiveData<Double> getPurchasedItemsCurrentWeekTotal(int week) {
         return mRepository.getPurchasedItemsCurrentWeekTotal(week);
     }
 
@@ -63,9 +56,9 @@ public class PurchasedItemViewModel extends AndroidViewModel {
         return mPurchasedItemTotalByWeekYear;
     }
 
-    public LiveData<List<Date>> getAllPurchasedItemDates() { return mAllPurchasedItemDates; };
-
     public void insert(PurchasedItem purchasedItem) { mRepository.insert(purchasedItem); }
+
+    public void update(PurchasedItem purchasedItem) { mRepository.update(purchasedItem); }
 
     public void deleteByPurchasedItemId(long uid) { mRepository.deleteByPurchasedItemId(uid); }
 

@@ -52,6 +52,7 @@ public class DayActivity extends AppCompatActivity {
                 todayStart.getTime().getTime(),
                 todayEnd.getTime().getTime()
         ).observe(this, purchasedItems -> {
+            purchasedItemsCopy.clear();
             itemsAdapter.clear();
             // Update the cached copy of the purchased items in the adapter.
             for(PurchasedItem purchasedItem : purchasedItems) {
@@ -60,14 +61,15 @@ public class DayActivity extends AppCompatActivity {
             }
         });
 
-        lvItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int pos, long id) {
-
-                Toast.makeText(getApplicationContext(), purchasedItemsCopy.get(pos).itemDescription, Toast.LENGTH_SHORT).show();
-                mPurchasedItemViewModel.deleteByPurchasedItemId(purchasedItemsCopy.get(pos).uid);
-                purchasedItemsCopy.remove(purchasedItemsCopy.get(pos));
-                return true;
+            public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long id) {
+                Intent intentDay = new Intent(getApplicationContext(), DayViewActivity.class);
+                intentDay.putExtra("itemToEdit",  purchasedItemsCopy.get(pos));
+                startActivity(intentDay);
+//                Toast.makeText(getApplicationContext(), purchasedItemsCopy.get(pos).itemDescription, Toast.LENGTH_SHORT).show();
+//                mPurchasedItemViewModel.deleteByPurchasedItemId(purchasedItemsCopy.get(pos).uid);
+//                purchasedItemsCopy.remove(purchasedItemsCopy.get(pos));
             }
         });
     }
