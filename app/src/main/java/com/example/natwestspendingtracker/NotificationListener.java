@@ -11,7 +11,6 @@ import java.util.regex.Pattern;
 
 public class NotificationListener extends NotificationListenerService {
 
-    private String TAG = "Notification Received";
     private String NATWEST_NOTIFICATION = "natwest";
     private String PUSH_BULLET_NOTIFICATION = "pushbullet";
 
@@ -59,10 +58,15 @@ public class NotificationListener extends NotificationListenerService {
 
     }
 
-    public   Double extract_cost_dot(String cost) {
-        Pattern compile = Pattern.compile("(\\d+\\.\\d+)|(\\d+)");
-        Matcher matcher = compile.matcher(cost);
-        matcher.find();
-        return Double.valueOf(matcher.group());
+    public Double extract_cost_dot(String cost) {
+        try {
+            Pattern compile = Pattern.compile("(\\d+\\.\\d+)|(\\d+)");
+            Matcher matcher = compile.matcher(cost);
+            matcher.find();
+            return Double.valueOf(matcher.group());
+        } catch (Exception e) {
+            System.out.println("Unable to save notification: " + e);
+            return 0.00;
+        }
     }
 }

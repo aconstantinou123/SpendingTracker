@@ -157,11 +157,11 @@ public class MainActivity extends AppCompatActivity {
                 +  String.format("%.2f", currentDayTotal);
         currentDayButton.setText(buttonText);
         if(currentDayTotal >= 50.00){
-            currentDayButton.setBackgroundColor(Color.parseColor("#FF0000"));
+            currentDayButton.setBackgroundColor(Color.parseColor("#F1433F"));
         } else if(currentDayTotal >= 20.00) {
-            currentDayButton.setBackgroundColor(Color.parseColor("#FFBF00"));
+            currentDayButton.setBackgroundColor(Color.parseColor("#F7E967"));
         } else {
-            currentDayButton.setBackgroundColor(Color.parseColor("#00FF00"));
+            currentDayButton.setBackgroundColor(Color.parseColor("#A9CF54"));
         }
     }
 
@@ -176,11 +176,11 @@ public class MainActivity extends AppCompatActivity {
                 + String.format("%.2f", currentWeekTotal);
         currentWeekButton.setText(buttonText);
         if(currentWeekTotal >= 200.00){
-            currentWeekButton.setBackgroundColor(Color.parseColor("#FF0000"));
+            currentWeekButton.setBackgroundColor(Color.parseColor("#F1433F"));
         } else if(currentWeekTotal >= 100.00) {
-            currentWeekButton.setBackgroundColor(Color.parseColor("#FFBF00"));
+            currentWeekButton.setBackgroundColor(Color.parseColor("#F7E967"));
         } else {
-            currentWeekButton.setBackgroundColor(Color.parseColor("#00FF00"));
+            currentWeekButton.setBackgroundColor(Color.parseColor("#A9CF54"));
         }
     }
 
@@ -188,19 +188,23 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            String receivedNotification = intent.getStringExtra("Notification");
-            String[] notificationArray = receivedNotification.split(":");
-            long uid = Long.parseLong(notificationArray[0]);
-            String text = notificationArray[1];
-            double price = Double.parseDouble(notificationArray[2]);
-            Date time = new Date(Long.parseLong(notificationArray[3]));
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(time);
-            int month = cal.get(Calendar.MONTH);
-            int year = cal.get(Calendar.YEAR);
-            int week = cal.get(Calendar.WEEK_OF_YEAR);
-            PurchasedItem purchasedItem = new PurchasedItem(uid, text, price, time, month, year, week);
-            mPurchasedItemViewModel.insert(purchasedItem);
+            try {
+                String receivedNotification = intent.getStringExtra("Notification");
+                String[] notificationArray = receivedNotification.split(":");
+                long uid = Long.parseLong(notificationArray[0]);
+                String text = notificationArray[1];
+                double price = Double.parseDouble(notificationArray[2]);
+                Date time = new Date(Long.parseLong(notificationArray[3]));
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(time);
+                int month = cal.get(Calendar.MONTH);
+                int year = cal.get(Calendar.YEAR);
+                int week = cal.get(Calendar.WEEK_OF_YEAR);
+                PurchasedItem purchasedItem = new PurchasedItem(uid, text, price, time, month, year, week);
+                mPurchasedItemViewModel.insert(purchasedItem);
+            } catch (Exception e) {
+                System.out.println("Unable to save notification: " + e);
+            }
         }
 
     }

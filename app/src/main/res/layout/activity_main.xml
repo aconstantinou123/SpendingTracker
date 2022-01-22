@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
@@ -9,55 +10,59 @@
 
     <Button
         android:id="@+id/currentDayButton"
-        android:layout_width="188dp"
-        android:layout_height="90dp"
-        android:backgroundTint="#3F51B5"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:backgroundTint="#3D4C53"
         android:onClick="onCurrentDayButtonClicked"
         android:text="Current Day"
-        app:layout_constraintBottom_toTopOf="@+id/currentWeekButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="5dp"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/currentWeekButton"
+        app:layout_constraintBottom_toTopOf="@id/weekButton"/>
 
     <Button
         android:id="@+id/currentWeekButton"
-        android:layout_width="188dp"
-        android:layout_height="90dp"
-        android:backgroundTint="#3F51B5"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:backgroundTint="#70B7BA"
         android:onClick="onCurrentWeekButtonClicked"
         android:text="Current Week"
-        app:layout_constraintBottom_toTopOf="@+id/weekButton"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="5dp"
+        app:layout_constraintStart_toEndOf="@+id/currentDayButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/currentDayButton" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/monthButton"  />
 
     <Button
         android:id="@+id/weekButton"
-        android:layout_width="188dp"
-        android:layout_height="90dp"
-        android:backgroundTint="#3F51B5"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:backgroundTint="#70B7BA"
         android:onClick="onWeeklyButtonClicked"
         android:text="Week View"
-        app:layout_constraintBottom_toTopOf="@+id/monthButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="5dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/currentWeekButton" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/monthButton"
+        app:layout_constraintTop_toBottomOf="@+id/currentDayButton"  />
 
     <Button
         android:id="@+id/monthButton"
-        android:layout_width="188dp"
-        android:layout_height="90dp"
-        android:backgroundTint="#3F51B5"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:backgroundTint="#3D4C53"
         android:onClick="onMonthlyButtonClicked"
         android:text="Month View"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="5dp"
+        app:layout_constraintTop_toBottomOf="@id/currentWeekButton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/weekButton" />
+        app:layout_constraintStart_toEndOf="@+id/weekButton"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

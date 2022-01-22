@@ -56,11 +56,11 @@ public class MonthsActivity extends AppCompatActivity {
                 Double total = Double.parseDouble(fullDate.split("£")[1]);
                 tv.setTextColor(Color.BLACK);
                 if(total >= 1000.00){
-                    tv.setBackgroundColor(Color.parseColor("#FF0000"));
+                    tv.setBackgroundColor(Color.parseColor("#F1433F"));
                 } else if(total >= 800.00) {
-                    tv.setBackgroundColor(Color.parseColor("#FFBF00"));
+                    tv.setBackgroundColor(Color.parseColor("#F7E967"));
                 } else {
-                    tv.setBackgroundColor(Color.parseColor("#00FF00"));
+                    tv.setBackgroundColor(Color.parseColor("#A9CF54"));
                 }
                 return view;
             }
