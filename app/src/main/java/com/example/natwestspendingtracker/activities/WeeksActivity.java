@@ -1,4 +1,4 @@
-package com.example.natwestspendingtracker;
+package com.example.natwestspendingtracker.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.natwestspendingtracker.R;
 import com.example.natwestspendingtracker.database.PurchasedItemViewModel;
 import com.example.natwestspendingtracker.database.WeekYearTotalTuple;
 

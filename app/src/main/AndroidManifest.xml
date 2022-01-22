@@ -10,28 +10,28 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NatwestSpendingTracker">
         <activity
-            android:name=".NewActivity"
+            android:name=".activities.NewActivity"
             android:exported="false" />
         <activity
-            android:name=".EditActivity"
+            android:name=".activities.EditActivity"
             android:exported="false" />
         <activity
-            android:name=".WeeksActivity"
+            android:name=".activities.WeeksActivity"
             android:exported="false" />
         <activity
-            android:name=".WeekDaysActivity"
+            android:name=".activities.WeekDaysActivity"
             android:exported="false" />
         <activity
-            android:name=".DayActivity"
+            android:name=".activities.DayActivity"
             android:exported="false" />
         <activity
-            android:name=".MonthDaysActivity"
+            android:name=".activities.MonthDaysActivity"
             android:exported="false" />
         <activity
-            android:name=".MonthsActivity"
+            android:name=".activities.MonthsActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

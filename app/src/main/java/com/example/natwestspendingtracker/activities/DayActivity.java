@@ -1,4 +1,4 @@
-package com.example.natwestspendingtracker;
+package com.example.natwestspendingtracker.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.example.natwestspendingtracker.R;
 import com.example.natwestspendingtracker.database.PurchasedItem;
 import com.example.natwestspendingtracker.database.PurchasedItemViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
