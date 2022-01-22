@@ -18,6 +18,8 @@ import com.example.natwestspendingtracker.database.PurchasedItemViewModel;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,12 +27,15 @@ public class MainActivity extends AppCompatActivity {
     private PurchasedItemViewModel mPurchasedItemViewModel;
     private Calendar todayStart;
     private Calendar todayEnd;
+    private Calendar tomorrowStart;
     private int currentWeek;
     private int currentYear;
     private Double currentDayTotal;
     private Double currentWeekTotal;
     private Button currentDayButton;
     private Button currentWeekButton;
+    private Timer timer;
+    private long dayInMilliseconds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +60,12 @@ public class MainActivity extends AppCompatActivity {
         todayEnd.set(Calendar.MINUTE, 59);
         todayEnd.set(Calendar.SECOND, 59);
 
+        tomorrowStart = Calendar.getInstance();
+        tomorrowStart.set(Calendar.HOUR_OF_DAY,0);
+        tomorrowStart.set(Calendar.MINUTE,0);
+        tomorrowStart.set(Calendar.SECOND,0);
+        tomorrowStart.add(Calendar.DATE, 1);
+
         currentWeek = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
         currentYear = Calendar.getInstance().get(Calendar.YEAR);
 
@@ -67,46 +78,49 @@ public class MainActivity extends AppCompatActivity {
                 this,
                 ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(PurchasedItemViewModel.class);
 
-//        mPurchasedItemViewModel.deleteAll();
+        dayInMilliseconds = 1000 * 60 * 60 * 24;
+
+        timer = new Timer();
+        timer.scheduleAtFixedRate(
+                new TimerTask() {
+                    @Override
+                    public void run() {
+                        Double total =  mPurchasedItemViewModel.getPurchasedItemsCurrentDayTotalStatic(
+                                todayStart.getTime().getTime(),
+                                todayEnd.getTime().getTime()
+                        );
+                        setCurrentDayButton(total);
+                    }
+                },
+                tomorrowStart.getTime(),
+                dayInMilliseconds
+        );
+
+        timer.scheduleAtFixedRate(
+                new TimerTask() {
+                    @Override
+                    public void run() {
+                        Double total = mPurchasedItemViewModel.getPurchasedItemsCurrentWeekTotalStatic(
+                                currentWeek
+                        );
+                        setCurrentWeekButton(total);
+                    }
+                },
+                tomorrowStart.getTime(),
+                dayInMilliseconds
+        );
 
         mPurchasedItemViewModel.getPurchasedItemsCurrentDayTotal(
                 todayStart.getTime().getTime(),
                 todayEnd.getTime().getTime()
         ).observe(this, total -> {
-            currentDayTotal = 0.00;
-            if(total != null) {
-                currentDayTotal = total;
-            }
-            String buttonText = "Current Day"
-                    + System.getProperty("line.separator")
-                    + "£"
-                    +  String.format("%.2f", currentDayTotal);
-            currentDayButton.setText(buttonText);
-            if(currentDayTotal >= 50.00){
-                currentDayButton.setBackgroundColor(Color.parseColor("#FF0000"));
-            } else if(currentDayTotal >= 20.00) {
-                currentDayButton.setBackgroundColor(Color.parseColor("#FFBF00"));
-            } else {
-                currentDayButton.setBackgroundColor(Color.parseColor("#00FF00"));
-            }
+            setCurrentDayButton(total);
         });
 
         mPurchasedItemViewModel.getPurchasedItemsCurrentWeekTotal(
                 currentWeek
         ).observe(this, total -> {
-            currentWeekTotal = total;
-            String buttonText = "Current Week"
-                    + System.getProperty("line.separator")
-                    + "£"
-                    + String.format("%.2f", currentWeekTotal);
-            currentWeekButton.setText(buttonText);
-            if(currentWeekTotal >= 200.00){
-                currentWeekButton.setBackgroundColor(Color.parseColor("#FF0000"));
-            } else if(currentWeekTotal >= 100.00) {
-                currentWeekButton.setBackgroundColor(Color.parseColor("#FFBF00"));
-            } else {
-                currentWeekButton.setBackgroundColor(Color.parseColor("#00FF00"));
-            }
+            setCurrentWeekButton(total);
         });
     }
 
@@ -132,6 +146,41 @@ public class MainActivity extends AppCompatActivity {
     public void onMonthlyButtonClicked(View button){
         Intent intent = new Intent(this, MonthsActivity.class);
         startActivity(intent);
+    }
+
+    public void setCurrentDayButton(Double total) {
+        currentDayTotal = 0.00;
+        if(total != null) {
+            currentDayTotal = total;
+        }
+        String buttonText = "Current Day"
+                + System.getProperty("line.separator")
+                + "£"
+                +  String.format("%.2f", currentDayTotal);
+        currentDayButton.setText(buttonText);
+        if(currentDayTotal >= 50.00){
+            currentDayButton.setBackgroundColor(Color.parseColor("#FF0000"));
+        } else if(currentDayTotal >= 20.00) {
+            currentDayButton.setBackgroundColor(Color.parseColor("#FFBF00"));
+        } else {
+            currentDayButton.setBackgroundColor(Color.parseColor("#00FF00"));
+        }
+    }
+
+    public void setCurrentWeekButton(Double total) {
+        currentWeekTotal = total;
+        String buttonText = "Current Week"
+                + System.getProperty("line.separator")
+                + "£"
+                + String.format("%.2f", currentWeekTotal);
+        currentWeekButton.setText(buttonText);
+        if(currentWeekTotal >= 200.00){
+            currentWeekButton.setBackgroundColor(Color.parseColor("#FF0000"));
+        } else if(currentWeekTotal >= 100.00) {
+            currentWeekButton.setBackgroundColor(Color.parseColor("#FFBF00"));
+        } else {
+            currentWeekButton.setBackgroundColor(Color.parseColor("#00FF00"));
+        }
     }
 
     public class NotificationReceiver extends BroadcastReceiver {

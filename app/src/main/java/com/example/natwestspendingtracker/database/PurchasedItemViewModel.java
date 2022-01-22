@@ -36,8 +36,16 @@ public class PurchasedItemViewModel extends AndroidViewModel {
         return mRepository.getPurchasedItemsCurrentDayTotal(dayst, dayend);
     }
 
+    public Double getPurchasedItemsCurrentDayTotalStatic(long dayst, long dayend) {
+        return mRepository.getPurchasedItemsCurrentDayTotalStatic(dayst, dayend);
+    }
+
     public LiveData<Double> getPurchasedItemsCurrentWeekTotal(int week) {
         return mRepository.getPurchasedItemsCurrentWeekTotal(week);
+    }
+
+    public Double getPurchasedItemsCurrentWeekTotalStatic(int week) {
+        return mRepository.getPurchasedItemsCurrentWeekTotalStatic(week);
     }
 
     public LiveData<List<DateStringTotalTuple>> getPurchasedItemTotalByDay(int week, int year) {

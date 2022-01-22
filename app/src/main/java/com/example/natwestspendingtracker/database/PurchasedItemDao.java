@@ -33,8 +33,15 @@ public interface PurchasedItemDao {
     @Query("SELECT SUM(item_price) FROM purchased_items WHERE week = :week")
     LiveData<Double> getPurchasedItemsCurrentWeekTotal(int week);
 
+    @Query("SELECT SUM(item_price) FROM purchased_items WHERE week = :week")
+    Double getPurchasedItemsCurrentWeekTotalStatic(int week);
+
     @Query("SELECT SUM(item_price) FROM purchased_items WHERE date  BETWEEN :dayst AND :dayend")
     LiveData<Double> getPurchasedItemsCurrentDayTotal(long dayst, long dayend);
+
+    @Query("SELECT SUM(item_price) FROM purchased_items WHERE date  BETWEEN :dayst AND :dayend")
+    Double getPurchasedItemsCurrentDayTotalStatic(long dayst, long dayend);
+
 
     @Query("DELETE FROM purchased_items WHERE uid = :uid")
     void deleteByPurchasedItemId(long uid);

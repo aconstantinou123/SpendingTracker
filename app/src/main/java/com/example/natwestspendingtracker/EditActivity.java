@@ -47,7 +47,7 @@ public class EditActivity extends AppCompatActivity {
         itemPriceEdit = (EditText) findViewById(R.id.item_price);
 
         itemDescriptionEdit.setText(itemToEdit.itemDescription);
-        itemPriceEdit.setText(String.valueOf(itemToEdit.itemPrice));
+        itemPriceEdit.setText(String.format("%.2f", itemToEdit.itemPrice));
     }
 
     public void onEditClicked(View button) {

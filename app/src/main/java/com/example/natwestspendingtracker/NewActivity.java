@@ -36,7 +36,7 @@ public class NewActivity extends AppCompatActivity {
         }
 
         actionBar = getSupportActionBar();
-        actionBar.setTitle("Add new purchase");
+        actionBar.setTitle("Add a new purchase");
 
         mPurchasedItemViewModel = new ViewModelProvider(
                 this,

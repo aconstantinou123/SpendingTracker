@@ -37,9 +37,16 @@ class PurchasedItemRepository {
     public LiveData<Double> getPurchasedItemsCurrentDayTotal(long dayst, long dayend) {
         return mPurchasedItemDao.getPurchasedItemsCurrentDayTotal(dayst, dayend);
     }
+    public Double getPurchasedItemsCurrentDayTotalStatic(long dayst, long dayend) {
+        return mPurchasedItemDao.getPurchasedItemsCurrentDayTotalStatic(dayst, dayend);
+    }
 
     public LiveData<Double> getPurchasedItemsCurrentWeekTotal(int week) {
         return mPurchasedItemDao.getPurchasedItemsCurrentWeekTotal(week);
+    }
+
+    public Double getPurchasedItemsCurrentWeekTotalStatic(int week) {
+        return mPurchasedItemDao.getPurchasedItemsCurrentWeekTotalStatic(week);
     }
 
     public LiveData<List<DateStringTotalTuple>> getPurchasedItemTotalByDay(int week, int year) {
