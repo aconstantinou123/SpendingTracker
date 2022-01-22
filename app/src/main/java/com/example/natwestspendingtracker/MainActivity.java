@@ -30,8 +30,6 @@ public class MainActivity extends AppCompatActivity {
     private Calendar tomorrowStart;
     private int currentWeek;
     private int currentYear;
-    private Double currentDayTotal;
-    private Double currentWeekTotal;
     private Button currentDayButton;
     private Button currentWeekButton;
     private Timer timer;
@@ -149,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setCurrentDayButton(Double total) {
-        currentDayTotal = 0.00;
+        Double currentDayTotal = 0.00;
         if(total != null) {
             currentDayTotal = total;
         }
@@ -168,7 +166,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setCurrentWeekButton(Double total) {
-        currentWeekTotal = total;
+        Double currentWeekTotal = 0.00;
+        if(total != null) {
+            currentWeekTotal = total;
+        }
         String buttonText = "Current Week"
                 + System.getProperty("line.separator")
                 + "£"
