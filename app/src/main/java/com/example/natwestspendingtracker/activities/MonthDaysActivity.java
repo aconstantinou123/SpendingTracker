@@ -20,6 +20,7 @@ import com.example.natwestspendingtracker.R;
 import com.example.natwestspendingtracker.activities.DayActivity;
 import com.example.natwestspendingtracker.database.DateStringTotalTuple;
 import com.example.natwestspendingtracker.database.PurchasedItemViewModel;
+import com.example.natwestspendingtracker.enums.AppColor;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -77,11 +78,11 @@ public class MonthDaysActivity extends AppCompatActivity {
                 Double total = Double.parseDouble(fullDate.split("£")[1]);
                 tv.setTextColor(Color.BLACK);
                 if(total >= 50.00){
-                    tv.setBackgroundColor(Color.parseColor("#F1433F"));
+                    tv.setBackgroundColor(Color.parseColor(AppColor.RED.getHex()));
                 } else if(total >= 20.00) {
-                    tv.setBackgroundColor(Color.parseColor("#F7E967"));
+                    tv.setBackgroundColor(Color.parseColor(AppColor.YELLOW.getHex()));
                 } else {
-                    tv.setBackgroundColor(Color.parseColor("#A9CF54"));
+                    tv.setBackgroundColor(Color.parseColor(AppColor.GREEN.getHex()));
                 }
                 return view;
             }

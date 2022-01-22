@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.example.natwestspendingtracker.R;
 import com.example.natwestspendingtracker.database.PurchasedItemViewModel;
 import com.example.natwestspendingtracker.database.WeekYearTotalTuple;
+import com.example.natwestspendingtracker.enums.AppColor;
 
 import java.util.ArrayList;
 
@@ -54,11 +55,11 @@ public class WeeksActivity extends AppCompatActivity {
                 Double total = Double.parseDouble(fullDate.split("£")[1]);
                 tv.setTextColor(Color.BLACK);
                 if(total >= 200.00){
-                    tv.setBackgroundColor(Color.parseColor("#F1433F"));
+                    tv.setBackgroundColor(Color.parseColor(AppColor.RED.getHex()));
                 } else if(total >= 100.00) {
-                    tv.setBackgroundColor(Color.parseColor("#F7E967"));
+                    tv.setBackgroundColor(Color.parseColor(AppColor.YELLOW.getHex()));
                 } else {
-                    tv.setBackgroundColor(Color.parseColor("#A9CF54"));
+                    tv.setBackgroundColor(Color.parseColor(AppColor.GREEN.getHex()));
                 }
                 return view;
             }

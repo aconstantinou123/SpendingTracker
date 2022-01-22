@@ -16,6 +16,7 @@ import android.widget.Button;
 import com.example.natwestspendingtracker.R;
 import com.example.natwestspendingtracker.database.PurchasedItem;
 import com.example.natwestspendingtracker.database.PurchasedItemViewModel;
+import com.example.natwestspendingtracker.enums.AppColor;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -158,11 +159,11 @@ public class MainActivity extends AppCompatActivity {
                 +  String.format("%.2f", currentDayTotal);
         currentDayButton.setText(buttonText);
         if(currentDayTotal >= 50.00){
-            currentDayButton.setBackgroundColor(Color.parseColor("#F1433F"));
+            currentDayButton.setBackgroundColor(Color.parseColor(AppColor.RED.getHex()));
         } else if(currentDayTotal >= 20.00) {
-            currentDayButton.setBackgroundColor(Color.parseColor("#F7E967"));
+            currentDayButton.setBackgroundColor(Color.parseColor(AppColor.YELLOW.getHex()));
         } else {
-            currentDayButton.setBackgroundColor(Color.parseColor("#A9CF54"));
+            currentDayButton.setBackgroundColor(Color.parseColor(AppColor.GREEN.getHex()));
         }
     }
 
@@ -177,11 +178,11 @@ public class MainActivity extends AppCompatActivity {
                 + String.format("%.2f", currentWeekTotal);
         currentWeekButton.setText(buttonText);
         if(currentWeekTotal >= 200.00){
-            currentWeekButton.setBackgroundColor(Color.parseColor("#F1433F"));
+            currentWeekButton.setBackgroundColor(Color.parseColor(AppColor.RED.getHex()));
         } else if(currentWeekTotal >= 100.00) {
-            currentWeekButton.setBackgroundColor(Color.parseColor("#F7E967"));
+            currentWeekButton.setBackgroundColor(Color.parseColor(AppColor.YELLOW.getHex()));
         } else {
-            currentWeekButton.setBackgroundColor(Color.parseColor("#A9CF54"));
+            currentWeekButton.setBackgroundColor(Color.parseColor(AppColor.GREEN.getHex()));
         }
     }
 
