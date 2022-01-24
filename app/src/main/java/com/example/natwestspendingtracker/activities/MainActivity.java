@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
     private PurchasedItemViewModel mPurchasedItemViewModel;
     private Calendar todayStart;
     private Calendar todayEnd;
-    private Calendar tomorrowStart;
     private int currentWeek;
     private int currentYear;
     private Button currentDayButton;
@@ -60,12 +59,6 @@ public class MainActivity extends AppCompatActivity {
         todayEnd.set(Calendar.MINUTE, 59);
         todayEnd.set(Calendar.SECOND, 59);
 
-        tomorrowStart = Calendar.getInstance();
-        tomorrowStart.set(Calendar.HOUR_OF_DAY,0);
-        tomorrowStart.set(Calendar.MINUTE,0);
-        tomorrowStart.set(Calendar.SECOND,0);
-        tomorrowStart.add(Calendar.DATE, 1);
-
         currentWeek = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
         currentYear = Calendar.getInstance().get(Calendar.YEAR);
 
@@ -92,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
                         setCurrentDayButton(total);
                     }
                 },
-                tomorrowStart.getTime(),
+                todayStart.getTime(),
                 dayInMilliseconds
         );
 
@@ -106,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
                         setCurrentWeekButton(total);
                     }
                 },
-                tomorrowStart.getTime(),
+                todayStart.getTime(),
                 dayInMilliseconds
         );
 
