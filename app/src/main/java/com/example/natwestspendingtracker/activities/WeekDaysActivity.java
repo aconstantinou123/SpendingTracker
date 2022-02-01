@@ -22,11 +22,13 @@ import com.example.natwestspendingtracker.database.DateStringTotalTuple;
 import com.example.natwestspendingtracker.database.PurchasedItemViewModel;
 import com.example.natwestspendingtracker.enums.AppColor;
 
+import java.sql.SQLOutput;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class WeekDaysActivity extends AppCompatActivity {
 
@@ -112,8 +114,21 @@ public class WeekDaysActivity extends AppCompatActivity {
                 String fullDate = (String) lvItems.getItemAtPosition(position);
 
                 Integer date = Integer.parseInt(fullDate.split(" ")[0]);
+                String monthName = fullDate.split(" ")[1];
+
+                Date monthDate = null;
+                try {
+                    monthDate = new SimpleDateFormat("MMM", Locale.ENGLISH).parse(monthName);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(monthDate);
+                int monthNum = cal.get(Calendar.MONTH);
+
                 Calendar dayStart= Calendar.getInstance();
                 dayStart.set(Calendar.YEAR, year);
+                dayStart.set(Calendar.MONTH, monthNum);
                 dayStart.set(Calendar.DATE, date);
                 dayStart.set(Calendar.HOUR_OF_DAY,0);
                 dayStart.set(Calendar.MINUTE,0);
@@ -121,7 +136,8 @@ public class WeekDaysActivity extends AppCompatActivity {
                 intent.putExtra("dayStart", dayStart);
 
                 Calendar dayEnd = Calendar.getInstance();
-                dayStart.set(Calendar.YEAR, year);
+                dayEnd.set(Calendar.YEAR, year);
+                dayEnd.set(Calendar.MONTH, monthNum);
                 dayEnd.set(Calendar.DATE, date);
                 dayEnd.set(Calendar.HOUR_OF_DAY, 23);
                 dayEnd.set(Calendar.MINUTE, 59);

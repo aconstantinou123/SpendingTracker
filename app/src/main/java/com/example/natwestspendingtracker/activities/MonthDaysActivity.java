@@ -119,7 +119,6 @@ public class MonthDaysActivity extends AppCompatActivity {
                                     long id) {
                 Intent intent = new Intent(getApplicationContext(), DayActivity.class);
                 String fullDate = (String) lvItems.getItemAtPosition(position);
-
                 Integer date = Integer.parseInt(fullDate.split(" ")[0]);
                 Calendar dayStart= Calendar.getInstance();
                 dayStart.set(Calendar.YEAR, year);
@@ -131,8 +130,8 @@ public class MonthDaysActivity extends AppCompatActivity {
                 intent.putExtra("dayStart", dayStart);
 
                 Calendar dayEnd = Calendar.getInstance();
-                dayStart.set(Calendar.YEAR, year);
-                dayStart.set(Calendar.MONTH, monthNum);
+                dayEnd.set(Calendar.YEAR, year);
+                dayEnd.set(Calendar.MONTH, monthNum);
                 dayEnd.set(Calendar.DATE, date);
                 dayEnd.set(Calendar.HOUR_OF_DAY, 23);
                 dayEnd.set(Calendar.MINUTE, 59);

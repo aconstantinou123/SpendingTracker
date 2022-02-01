@@ -18,6 +18,9 @@ import com.example.natwestspendingtracker.database.PurchasedItem;
 import com.example.natwestspendingtracker.database.PurchasedItemViewModel;
 import com.example.natwestspendingtracker.enums.AppColor;
 
+import java.time.Duration;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Timer;
@@ -29,12 +32,15 @@ public class MainActivity extends AppCompatActivity {
     private PurchasedItemViewModel mPurchasedItemViewModel;
     private Calendar todayStart;
     private Calendar todayEnd;
+//    private Calendar timerStart;
     private int currentWeek;
     private int currentYear;
     private Button currentDayButton;
     private Button currentWeekButton;
     private Timer timer;
-    private long dayInMilliseconds;
+    private TimerTask dayTotalTask;
+    private TimerTask weekTotalTask;
+    private long hourInMilliseconds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +65,21 @@ public class MainActivity extends AppCompatActivity {
         todayEnd.set(Calendar.MINUTE, 59);
         todayEnd.set(Calendar.SECOND, 59);
 
+//        timerStart = Calendar.getInstance();
+//        timerStart.set(Calendar.MINUTE, 0);
+//        timerStart.set(Calendar.SECOND, 1);
+//        timerStart.set(Calendar.MILLISECOND, 0);
+
+        ZonedDateTime now = ZonedDateTime.now(ZoneId.of("Europe/London"));
+        ZonedDateTime nextRun = now.toLocalDate().atStartOfDay(now.getZone());
+        if(now.compareTo(nextRun) > 0)
+            nextRun = nextRun.plusDays(1);
+
+        Duration duration = Duration.between(now, nextRun);
+        long initialDelay = duration.getSeconds() * 1000;
+        System.out.println("initial delay: " + initialDelay);
+
+
         currentWeek = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
         currentYear = Calendar.getInstance().get(Calendar.YEAR);
 
@@ -71,37 +92,34 @@ public class MainActivity extends AppCompatActivity {
                 this,
                 ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(PurchasedItemViewModel.class);
 
-        dayInMilliseconds = 1000 * 60 * 60 * 24;
+        hourInMilliseconds = 1000 * 60 * 60;
 
         timer = new Timer();
-        timer.scheduleAtFixedRate(
-                new TimerTask() {
+        dayTotalTask = new TimerTask() {
                     @Override
                     public void run() {
                         Double total =  mPurchasedItemViewModel.getPurchasedItemsCurrentDayTotalStatic(
                                 todayStart.getTime().getTime(),
                                 todayEnd.getTime().getTime()
                         );
+                        System.out.println("Called get day");
                         setCurrentDayButton(total);
                     }
-                },
-                todayStart.getTime(),
-                dayInMilliseconds
-        );
+                };
 
-        timer.scheduleAtFixedRate(
-                new TimerTask() {
-                    @Override
-                    public void run() {
-                        Double total = mPurchasedItemViewModel.getPurchasedItemsCurrentWeekTotalStatic(
-                                currentWeek
-                        );
-                        setCurrentWeekButton(total);
-                    }
-                },
-                todayStart.getTime(),
-                dayInMilliseconds
-        );
+        weekTotalTask = new TimerTask() {
+            @Override
+            public void run() {
+                Double total = mPurchasedItemViewModel.getPurchasedItemsCurrentWeekTotalStatic(
+                        currentWeek
+                );
+                System.out.println("Called get week");
+                setCurrentWeekButton(total);
+            }
+        };
+
+        timer.scheduleAtFixedRate(dayTotalTask, initialDelay, hourInMilliseconds);
+        timer.scheduleAtFixedRate(weekTotalTask, initialDelay, hourInMilliseconds);
 
         mPurchasedItemViewModel.getPurchasedItemsCurrentDayTotal(
                 todayStart.getTime().getTime(),

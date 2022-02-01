@@ -52,7 +52,6 @@ public class DayActivity extends AppCompatActivity {
         dayStart = (Calendar) intent.getSerializableExtra("dayStart");
         dayEnd = (Calendar) intent.getSerializableExtra( "dayEnd");
 
-
         actionBar = getSupportActionBar();
         dt = new SimpleDateFormat("dd MMMM yyyy");
         currentDate = dt.format(dayStart.getTime());
